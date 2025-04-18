@@ -1,11 +1,12 @@
-<% messages.map((message, index) => { %>
-    <div>
-        <ul>
-            <li><%= message.user %> said: <%= message.text %></li>
-            <li>at <%= message.added %></li>
-            <li>
-                <a href="/message/<%= index %>">View message</a>
-            </li>
-        </ul>
-    </div>
-<%}) %>
+<div>
+    <ul>
+        <li><a href="/message/<%= message.id %>"><%= message.id %></a></li>
+        <li><%= message.member %> said: <%= message.text %></li>
+        <li>at <%= message.added %></li>
+        <li>
+            <a href="/delete/<%= message.id %>">
+                <button type="button">Delete</button>
+            </a>
+        </li>
+    </ul>
+</div>

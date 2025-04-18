@@ -1,33 +1,7 @@
-// const db = require("../db/queries");
-const messages = [
-    {   
-        text: "Hi there!",
-        user: "Amando",
-        added: new Date()
-    },
-    {
-        text: "Hello World!",
-        user: "Charles",
-        added: new Date()
-    },
-    {
-        text: "What's up",
-        user: "Bill",
-        added: new Date()
-    },
-    {
-        text: "Nihao chingchong",
-        user: "Xuka",
-        added: new Date()
-    },
-    {
-        text: "Xin chao",
-        user: "Ying",
-        added: new Date()
-    },
-];
+const db = require("../db/queries");
 
-exports.AllMessageGet = (req, res) => {
+exports.AllMessageGet = async (req, res) => {
+    const messages = await db.getAllMessages()
     res.render('index', {messages: messages})
 };
 
@@ -39,23 +13,53 @@ exports.GetNewMessageForm = (req, res) => {
     res.render('form')
 };
 
-exports.PostNewMessage = (req, res) => {
+exports.PostNewMessage = async (req, res) => {
     const newMessage = {
         text: req.body.message,
-        user: req.body.user,
-        added: new Date()
+        member: req.body.member,
+        added: new Date().toDateString()
     }
 
-    messages.push(newMessage)
+    await db.insertNewMessage(newMessage)
+
     res.redirect('/')
 };
 
-exports.GetMessageIndex = (req, res) => {
+exports.FindMessageID = async(req, res) => {
 
-    const index = req.params.messageIndex
-    const message = messages[index]
+    const id = req.query.id
 
-    res.send(`${message.user} said ${message.text} at ${message.added}`)
+    const message = await db.findMessage(id)
+
+    res.send(`${message.member} said ${message.text} at ${message.added}`)
+
+};
+
+exports.GetMessageID = async(req, res) => {
+
+    const id = req.params.id
+
+    const message = await db.findMessage(id)
+
+    res.render('message', {message: message})
+
+};
+
+exports.DeleteMessageID = async(req, res) => {
+
+    const id = req.params.id
+
+    await db.deleteMessage(id)
+
+    res.redirect('/')
+
+};
+
+exports.DeleteAllMessage = async(req, res) => {
+
+    await db.deleteAllMessage()
+
+    res.redirect('/')
 
 };
 

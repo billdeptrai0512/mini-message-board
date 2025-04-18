@@ -3,9 +3,19 @@
     <title>Homepage</title>
   </head>
   <body>
+    <form action="/message" method="GET" style="display:inline;">
+      <label for="id">ID: </label>
+      <input type="number" name="id" id="id">
+      <button type="submit" >Search</button>
+    </form>
     <div>
-        <%- include('message', {messages: messages}) %>
+      <% messages.map((message, index) => { %>
+        <div>
+            <%- include('message', {message: message}) %>
+        </div>
+      <%}) %>
     </div>
     <a href="/new">Create new message</a>
+    <a href="/delete-all">Delete all message</a>
   </body>
 </html>
