@@ -31,6 +31,9 @@ async function main() {
     console.log(process.env.DB_URL)
     const client = new Client({
       connectionString: process.env.DB_URL,
+      ssl: {
+        rejectUnauthorized: false
+    }
     });
     await client.connect();
     await client.query(firstSQL);
