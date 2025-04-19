@@ -1,3 +1,6 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
 const { Client } = require("pg");
 
 const firstSQL = `
@@ -24,7 +27,7 @@ VALUES
 async function main() {
     console.log("seeding...");
     const client = new Client({
-      connectionString: "postgres://billdeptrai0512:npg_PrGkWt5i4aKS@ep-bitter-surf-a1z5j8j7.ap-southeast-1.pg.koyeb.app/koyebdb",
+      connectionString: process.env.DB_URL,
     });
     await client.connect();
     await client.query(firstSQL);
