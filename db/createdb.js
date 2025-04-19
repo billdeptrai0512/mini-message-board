@@ -24,6 +24,8 @@ VALUES
   ('Xin chao', 'Ying', CURRENT_TIMESTAMP);
 `;
 
+console.log(process.env.DB_URL)
+
 async function main() {
     console.log("seeding...");
     console.log(process.env.DB_URL)
